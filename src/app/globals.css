@@ -1,26 +1,174 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fbf3df;
+  --foreground: #272019;
+  --muted: #7c6f5d;
+  --paper: #fff8e9;
+  --ember: #d66b2f;
+  --wax: #fff1c9;
+  --wax-shadow: #e4c981;
+  --wick: #211713;
+  --base: #352821;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-pixel);
+  --font-mono: var(--font-pixel);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--background);
+  font-size: 22.5px;
 }
 
 body {
-  background: var(--background);
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 50% 52%, rgba(214, 107, 47, 0.08), transparent 24rem),
+    linear-gradient(rgba(39, 32, 25, 0.025) 1px, transparent 1px),
+    var(--background);
+  background-size: auto, 18px 18px, auto;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-pixel), "Courier New", monospace;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+  text-rendering: geometricPrecision;
+}
+
+.text-xs {
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.text-sm {
+  font-size: 1.04rem;
+  line-height: 1.55;
+}
+
+.text-base {
+  font-size: 1.16rem;
+  line-height: 1.55;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: #f7c56e;
+  color: #211713;
+}
+
+.pixel-text {
+  font-family: var(--font-pixel), "Courier New", monospace;
+  letter-spacing: 0;
+  text-transform: lowercase;
+}
+
+.pixelated {
+  image-rendering: pixelated;
+}
+
+.pixel-asset {
+  image-rendering: pixelated;
+}
+
+.candle-smoke {
+  position: absolute;
+  bottom: 2.1rem;
+  left: 50%;
+  display: block;
+  width: 0.82rem;
+  height: 1.55rem;
+  border-radius: 999px;
+  background: rgba(92, 84, 73, 0.3);
+  filter: blur(5px);
+  transform: translateX(-50%);
+  animation: candle-smoke-rise 4.8s ease-in-out infinite;
+}
+
+.candle-smoke-a {
+  margin-left: -0.3rem;
+}
+
+.candle-smoke-b {
+  width: 0.58rem;
+  height: 1.1rem;
+  margin-left: 0.35rem;
+  animation-delay: 1.4s;
+  animation-duration: 5.4s;
+}
+
+.candle-smoke-c {
+  width: 0.46rem;
+  height: 0.95rem;
+  margin-left: 0.08rem;
+  animation-delay: 2.7s;
+  animation-duration: 4.2s;
+}
+
+.candle-flame-appear {
+  transform-origin: 50% 100%;
+  animation: candle-flame-appear 0.72s ease-out both;
+}
+
+@keyframes candle-flame-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(0.2rem) scale(0.45);
+  }
+  55% {
+    opacity: 0.82;
+    transform: translateY(0) scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes candle-smoke-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, 0, 0) scale(0.6);
+  }
+  18% {
+    opacity: 0.58;
+  }
+  58% {
+    opacity: 0.34;
+    transform: translate3d(calc(-50% + 0.45rem), -1.2rem, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(-50% - 0.25rem), -2.4rem, 0) scale(1.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

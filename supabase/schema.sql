@@ -13,6 +13,9 @@ alter table public.profiles
   add column if not exists updated_at timestamptz not null default now();
 
 alter table public.profiles
+  drop constraint if exists profiles_display_name_length;
+
+alter table public.profiles
   add constraint profiles_display_name_length check (char_length(display_name) between 1 and 32);
 
 create table if not exists public.candle_sessions (
@@ -28,6 +31,9 @@ create table if not exists public.candle_sessions (
 
 alter table public.candle_sessions
   add column if not exists duration_ms integer not null default 300000;
+
+alter table public.candle_sessions
+  drop constraint if exists candle_sessions_duration_ms_positive;
 
 alter table public.candle_sessions
   add constraint candle_sessions_duration_ms_positive check (duration_ms > 0);
@@ -86,6 +92,24 @@ alter table public.study_rooms enable row level security;
 alter table public.room_members enable row level security;
 alter table public.room_messages enable row level security;
 alter table public.matches enable row level security;
+
+drop policy if exists "Users can read their profile" on public.profiles;
+drop policy if exists "Users can insert their profile" on public.profiles;
+drop policy if exists "Users can update their profile" on public.profiles;
+drop policy if exists "Users can read their candle sessions" on public.candle_sessions;
+drop policy if exists "Users can insert their candle sessions" on public.candle_sessions;
+drop policy if exists "Users can update their candle sessions" on public.candle_sessions;
+drop policy if exists "Users can send feedback" on public.feedback;
+drop policy if exists "Users can read their feedback" on public.feedback;
+drop policy if exists "Users can create rooms" on public.study_rooms;
+drop policy if exists "Users can read joined rooms" on public.study_rooms;
+drop policy if exists "Room creators can close rooms" on public.study_rooms;
+drop policy if exists "Users can join themselves" on public.room_members;
+drop policy if exists "Users can read members in their rooms" on public.room_members;
+drop policy if exists "Users can update their membership" on public.room_members;
+drop policy if exists "Users can read room messages" on public.room_messages;
+drop policy if exists "Users can read their matches" on public.matches;
+drop policy if exists "Users can create match searches" on public.matches;
 
 create policy "Users can read their profile"
   on public.profiles for select

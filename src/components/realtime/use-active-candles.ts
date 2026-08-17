@@ -6,13 +6,18 @@ import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { STUDY_ROOM_CHANNEL } from "@/lib/realtime/channel";
 import type { PresenceSession } from "@/types/database";
 
-type PresenceValue = { presences: PresenceSession[] };
+type PresenceValue = PresenceSession | { presences?: PresenceSession[] };
 
 function countPresence(state: Record<string, PresenceValue[]>) {
   const sessions = new Set<string>();
 
   Object.values(state).forEach((metas) => {
     metas.forEach((meta) => {
+      if ("sessionId" in meta) {
+        sessions.add(meta.sessionId);
+        return;
+      }
+
       meta.presences?.forEach((presence) => sessions.add(presence.sessionId));
     });
   });

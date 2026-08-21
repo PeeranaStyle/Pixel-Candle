@@ -173,13 +173,6 @@ export function CandleRoom() {
                 >
                   alone
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setMode("multiplayer")}
-                  className="text-sm text-[color:var(--foreground)] transition hover:text-[color:var(--ember)]"
-                >
-                  study together
-                </button>
               </div>
             </div>
           )}

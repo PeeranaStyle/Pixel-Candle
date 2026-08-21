@@ -12,6 +12,7 @@ import { ensureAnonymousUser, type PublicProfile } from "@/lib/profile/auth";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { CANDLE_DURATIONS, createSessionId, getCandleProgress } from "@/lib/candle/config";
 import type { CandleType, PresenceSession } from "@/types/database";
+import { CandlePictureInPicture } from "./candle-picture-in-picture";
 import { CandleSelector } from "./candle-selector";
 import { PixelCandle } from "./pixel-candle";
 
@@ -222,13 +223,23 @@ export function CandleRoom() {
           )}
 
           {mode !== "multiplayer" && candleState === "burning" && (
-            <button
-              type="button"
-              onClick={reset}
-              className="pixel-text mt-10 text-xs text-[color:var(--muted)] transition hover:text-[color:var(--foreground)]"
-            >
-              choose another candle
-            </button>
+            <div className="flex flex-col items-center">
+              <button
+                type="button"
+                onClick={reset}
+                className="pixel-text mt-10 text-xs text-[color:var(--muted)] transition hover:text-[color:var(--foreground)]"
+              >
+                choose another candle
+              </button>
+              {session && (
+                <CandlePictureInPicture
+                  startedAt={session.startedAt}
+                  duration={session.duration}
+                  candleType={visibleCandleType}
+                  seed={session.sessionId}
+                />
+              )}
+            </div>
           )}
         </div>
       </section>
